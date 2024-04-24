@@ -8,7 +8,7 @@ root.title('Chatbot created by CtrlAltDefeat')
 root.config(bg='grey')
 root.resizable(False,False)
 
-logoPic = PhotoImage(file='Design ohne Titel.png')
+logoPic = PhotoImage(file=r'DesignOhneTitel.png')
 logoPicLabel = Label(root, image=logoPic, bg='white')
 logoPicLabel.pack(pady=5)
 

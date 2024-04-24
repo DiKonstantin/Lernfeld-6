@@ -1,1 +1,1 @@
-tk==0.1.0
+# Wichtig -> tkinter >= 8.6 !
