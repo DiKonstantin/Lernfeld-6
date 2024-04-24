@@ -4,7 +4,7 @@ from tkinter import *
 root = Tk()
 
 root.geometry('500x570+100+30')
-root.title('Chatbot created by StrAltDefeat')
+root.title('Chatbot created by CtrlAltDefeat')
 root.config(bg='grey')
 root.resizable(False,False)
 
