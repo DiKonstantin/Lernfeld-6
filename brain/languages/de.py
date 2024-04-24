@@ -12,5 +12,7 @@ questions = {
     4 : "Welche Daten werden miteinbegriffen?",
     5 : "Welche Maßnahmen werden zum Schutz dieser Daten ergriffen?",
     6 : "Wie lange werden meine Daten gespeichert?",
-
+    7 : "Wie geht man mit Datenlöschung um?",
+    8 : "Wer hat Zugriff und Einsicht auf meine Daten?",
+    9 : "Werden Schulungen zum Datenschutz angeboten, und welche wäre diese?"
 }
