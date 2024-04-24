@@ -1,6 +1,6 @@
 import asyncio
 import time
-from languages import language
+from brain.languages import language
 import concurrent.futures
 
 class Brain:

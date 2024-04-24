@@ -1,47 +1,68 @@
+import tracemalloc
 import asyncio
+import threading
 from tkinter import *
-from brain import Brain
+from tkinter import messagebox
+from brain import Brain  # Import the Brain class from brain.py
 
-root = Tk()
+class Chatbot:
+    def __init__(self, master):
+        self.master = master
+        self.brain_instance = Brain()
 
-async def observe_messages(self):
-    while True:
-        await asyncio.sleep(0.1)  # Small delay to prevent busy loop
-        answer = await self.brain.getNextAnswer()
-        if answer:
-            print("Received answer:", answer)
+        master.geometry('500x570+100+30')
+        master.title('Chatbot created by CtrlAltDefeat')
+        master.config(bg='grey')
+        master.resizable(False, False)
 
-root.geometry('500x570+100+30')
-root.title('Chatbot created by CtrlAltDefeat')
-root.config(bg='grey')
-root.resizable(False, False)
+        logoPic = PhotoImage(file=r'DesignOhneTitel.png')
+        logoPicLabel = Label(master, image=logoPic, bg='white')
+        logoPicLabel.pack(pady=5)
 
-logoPic = PhotoImage(file=r'DesignOhneTitel.png')
-logoPicLabel = Label(root, image=logoPic, bg='white')
-logoPicLabel.pack(pady=5)
+        centerFrame = Frame(master)
+        centerFrame.pack()
 
-centerFrame = Frame(root)
-centerFrame.pack()
+        scrollbar = Scrollbar(centerFrame)
+        scrollbar.pack(side=RIGHT)
 
-scrollbar = Scrollbar(centerFrame)
-scrollbar.pack(side=RIGHT)
+        self.textarea = Text(centerFrame, font=('arial', 20, 'bold'), height=5, yscrollcommand=scrollbar.set, wrap='word')
+        self.textarea.pack(side=LEFT)
+        scrollbar.config(command=self.textarea.yview)
 
-textarea = Text(centerFrame, font=('arial', 20, 'bold'), height=5, yscrollcommand=scrollbar.set, wrap='word')
-textarea.pack(side=LEFT)
-scrollbar.config(command=textarea.yview)
+        self.questionField = Entry(centerFrame, font=('arial', 20, 'bold'))
+        self.questionField.pack(pady=10, fill=X)
 
-questionField = Entry(centerFrame, font=('arial', 20, 'bold'))
-questionField.pack(pady=10, fill=X)
+        askButton = Button(master, text="Submit", command=self.submit_button_click)
+        askButton.pack()
 
-askButton = Button(root)
-askButton.pack()
-askButton['text'] = 'Submit'
+    async def submit_button_click(self):
+        question_text = self.questionField.get()
+        self.textarea.insert(END, f"\nYou entered: {question_text}\n")
+        await self.brain_instance.sendMessage(question_text)
+        self.questionField.delete(0, END)
 
-# Start the event loop to check for new messages
-asyncio.create_task(observe_messages())
+    async def output_loop(self):
+        while True:
+            answer = await self.brain_instance.getNextAnswer()
+            if answer:
+                self.textarea.insert(END, f"\nReceived answer: {answer}\n")
+                self.textarea.see(END)
+
+def run_gui(chatbot):
+    root = Tk()
+    chatbot.master = root  # Set the master of the chatbot to the new Tk instance
+    root.mainloop()
 
 
+async def main():
+    tracemalloc.start()  # Enable tracemalloc to get the object allocation traceback
 
+    root = Tk()  # Create a Tk instance for the GUI
+    chatbot = Chatbot(root)  # Create Chatbot instance
+    root_thread = threading.Thread(target=run_gui, args=(chatbot,))  # Run GUI in a separate thread with Chatbot instance
+    root_thread.start()
 
+    await asyncio.create_task(chatbot.output_loop())  # Run the asyncio event loop with Chatbot instance in a separate thread
 
-root.mainloop()
+if __name__ == "__main__":
+    asyncio.run(main())
