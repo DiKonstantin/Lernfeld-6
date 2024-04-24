@@ -1,15 +1,14 @@
-import time
 import asyncio
-
+import time
 from languages import language
-
+import concurrent.futures
 
 class Brain:
     """The Main Brain Class"""
 
     def __init__(self):
-        self.message_queue = []
-        self.answer_queue = []
+        self.message_queue = asyncio.Queue()
+        self.answer_queue = asyncio.Queue()
 
         current_timestamp = int(time.time())
         filename = "log_" + str(current_timestamp) + ".txt"
@@ -17,50 +16,58 @@ class Brain:
 
     async def startSession(self):
         conversation_running = True
-        self.sendAnswer(language.get_message("greet"))
-        self.sendAnswer(language.get_message("announce_quit"))
+        await self.sendMessage(language.get_message("greet"))
+        await self.sendMessage(language.get_message("announce_quit"))
 
         while conversation_running:
-            await asyncio.sleep(0.1)  # prevent to much load
-            if self.message_queue:
-                print("GotMessage")
-                next_message = self.message_queue.pop(0)
+            await asyncio.sleep(0.1)  # prevent too much load
+            if not self.message_queue.empty():
+                next_message = await self.message_queue.get()
                 self.file.write(next_message + "\n")
                 if next_message == "quit":
                     conversation_running = False
                 else:
-                    self.sendAnswer("You entered " + next_message)
+                    await self.sendAnswer("You entered " + next_message)
 
-        self.sendAnswer(language.get_message("quit"))
+        await self.sendAnswer(language.get_message("quit"))
+        self.file.close()
 
-    def sendMessage(self, message):
-        self.message_queue.append(message)
+    async def sendMessage(self, message):
+        await self.message_queue.put(message)
 
-    def sendAnswer(self, message):
-        self.answer_queue.append(message)
-        self.file.write(message)
+    async def sendAnswer(self, message):
+        await self.answer_queue.put(message)
+        self.file.write(message + "\n")
+        self.file.flush()
 
     async def getNextAnswer(self):
-        if self.answer_queue:
-            return self.answer_queue.pop(0)
-        return None
-#        try:
-#            return await asyncio.wait_for(self.answer_queue.pop(0), timeout=1)
-#        except asyncio.TimeoutError:
-#            return None
+        while self.answer_queue.empty():
+            await asyncio.sleep(0.1)
+        return await self.answer_queue.get()
 
-
-async def main():
-    brain = Brain()
-    asyncio.create_task(brain.startSession())  # Start the session coroutine
-
+async def input_loop(brain):
+    loop = asyncio.get_event_loop()
     while True:
-        user_input = input("Enter text: ")
-        brain.sendMessage(user_input)
+        user_input = await loop.run_in_executor(None, input, "")
+        print()
+        await brain.sendMessage(user_input)
 
+async def output_loop(brain):
+    while True:
         answer = await brain.getNextAnswer()
         if answer:
             print("Received answer:", answer)
+            print("Enter text:", end=" ", flush=True)
+
+async def main():
+    brain = Brain()
+    asyncio.create_task(brain.startSession())
+    asyncio.create_task(input_loop(brain))
+    asyncio.create_task(output_loop(brain))
+
+    # Create an event to keep the main coroutine running indefinitely
+    await asyncio.Event().wait()
 
 if __name__ == "__main__":
     asyncio.run(main())
+
