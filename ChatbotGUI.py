@@ -5,7 +5,8 @@ from tkinter import *
 from tkinter import messagebox
 from brain import Cortex  # Import the Brain class from brain.py
 
-class Chatbot:
+
+class ChatbotGUI:
     def __init__(self, master):
         self.master = master
         self.brain_instance = Cortex()
@@ -19,25 +20,25 @@ class Chatbot:
         logoPicLabel = Label(master, image=logoPic, bg='white')
         logoPicLabel.pack(pady=5)
 
-        centerFrame = Frame(master)
-        centerFrame.pack()
+        center_frame = Frame(master)
+        center_frame.pack()
 
-        scrollbar = Scrollbar(centerFrame)
+        scrollbar = Scrollbar(center_frame)
         scrollbar.pack(side=RIGHT)
 
-        self.textarea = Text(centerFrame, font=('arial', 20, 'bold'), height=5, yscrollcommand=scrollbar.set, wrap='word')
-        self.textarea.pack(side=LEFT)
+        self.textarea = Text(center_frame, font=('arial', 20, 'bold'), height=5, yscrollcommand=scrollbar.set,
+                             wrap='word')
+        self.textarea.pack()
         scrollbar.config(command=self.textarea.yview)
 
-        self.questionField = Entry(centerFrame, font=('arial', 20, 'bold'))
+        self.questionField = Entry(center_frame, font=('arial', 20, 'bold'))
         self.questionField.pack(pady=10, fill=X)
 
-        askButton = Button(master, text="Submit", command=self.submit_button_click)
-        askButton.pack()
+        ask_button = Button(master, text="Submit", command=lambda: asyncio.create_task(self.submit_button_click()))
+        ask_button.pack()
 
     async def submit_button_click(self):
         question_text = self.questionField.get()
-        self.textarea.insert(END, f"\nYou entered: {question_text}\n")
         await self.brain_instance.send_message(question_text)
         self.questionField.delete(0, END)
 
@@ -48,21 +49,17 @@ class Chatbot:
                 self.textarea.insert(END, f"\nReceived answer: {answer}\n")
                 self.textarea.see(END)
 
-def run_gui(chatbot):
-    root = Tk()
-    chatbot.master = root  # Set the master of the chatbot to the new Tk instance
-    root.mainloop()
-
 
 async def main():
     tracemalloc.start()  # Enable tracemalloc to get the object allocation traceback
 
     root = Tk()  # Create a Tk instance for the GUI
-    chatbot = Chatbot(root)  # Create Chatbot instance
-    root_thread = threading.Thread(target=run_gui, args=(chatbot,))  # Run GUI in a separate thread with Chatbot instance
-    root_thread.start()
+    chatbot = ChatbotGUI(root)  # Create Chatbot instance
+    cortex = Cortex()
+    await asyncio.gather(chatbot.output_loop(), root.mainloop())
 
-    await asyncio.create_task(chatbot.output_loop())  # Run the asyncio event loop with Chatbot instance in a separate thread
+    # await asyncio.create_task(chatbot.output_loop())  # Run the asyncio event loop with Chatbot instance in a separate thread
+
 
 if __name__ == "__main__":
     asyncio.run(main())
