@@ -3,12 +3,12 @@ import asyncio
 import threading
 from tkinter import *
 from tkinter import messagebox
-from brain import Brain  # Import the Brain class from brain.py
+from brain import Cortex  # Import the Brain class from brain.py
 
 class Chatbot:
     def __init__(self, master):
         self.master = master
-        self.brain_instance = Brain()
+        self.brain_instance = Cortex()
 
         master.geometry('500x570+100+30')
         master.title('Chatbot created by CtrlAltDefeat')
@@ -38,12 +38,12 @@ class Chatbot:
     async def submit_button_click(self):
         question_text = self.questionField.get()
         self.textarea.insert(END, f"\nYou entered: {question_text}\n")
-        await self.brain_instance.sendMessage(question_text)
+        await self.brain_instance.send_message(question_text)
         self.questionField.delete(0, END)
 
     async def output_loop(self):
         while True:
-            answer = await self.brain_instance.getNextAnswer()
+            answer = await self.brain_instance.get_next_answer()
             if answer:
                 self.textarea.insert(END, f"\nReceived answer: {answer}\n")
                 self.textarea.see(END)

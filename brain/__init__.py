@@ -1,1 +1,1 @@
-from .main import Brain
+from .main import Cortex
