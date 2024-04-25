@@ -1,1 +1,1 @@
-from .main import Cortex
+from .Cortex import Cortex
