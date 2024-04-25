@@ -26,13 +26,15 @@ class Cortex:
         Args:
             No Args
         """
-        self.message_queue = asyncio.Queue()
-        self.answer_queue = asyncio.Queue()
+        self.message_queue = []
+        self.answer_queue = []
         self.stop_event = asyncio.Event()
 
         current_timestamp = int(time.time())
         filename = "log_" + str(current_timestamp) + ".txt"
         self.file = open(filename, "w")
+        self.file.write("Starting Session")
+        self.file.flush()
 
     async def start_session(self):
         """
@@ -40,53 +42,57 @@ class Cortex:
         message_queue and will then send an Answer into the answer_queue.
 
         """
+        print("Starting Session")
         conversation_running = True
-        await self.send_message(language.get_message("greet"))
-        await self.send_message(language.get_message("announce_quit"))
+        self.send_message(language.get_message("greet"))
+        self.send_message(language.get_message("announce_quit"))
 
         while conversation_running:
             await asyncio.sleep(0.1)  # small delay to not have a CPU-overloading loop
-            if not self.message_queue.empty():
-                next_message = await self.message_queue.get()  # get the next message from the stack. This loop will handle each message one by one.
-
+            if self.message_queue:
+                next_message = self.message_queue.pop(0)  # get the next message from the stack. This loop will handle each message one by one.
+                print(next_message)
                 # handle now the "quit" message
                 if next_message == "quit":
                     conversation_running = False
+                elif next_message == "random":
+                    self.send_message(language.get_message("end_conversation"))
+
 
                 # now handle all other messages incoming
                 else:
                     ##### REPLACE THE CODE HERE FOR YOUR LOGIC #####
-                    await self.send_answer("You entered " + next_message)
+                    self.send_answer("You entered " + next_message)
 
         # await self.send_answer(language.get_message("end_conversation"))
         self.stop_event.set()  # Set the stop event to signal other tasks to stop
 
-    async def send_message(self, message):
+    def send_message(self, message):
         """
         This method will send a message to the Cortex Class and put it in the message_queue.
         :param message:
         :return: None
         """
-        await self.message_queue.put(message)
         self.file.write(message + "\n")
+        self.file.flush()
+        self.message_queue.append(message)
 
-    async def send_answer(self, message):
+    def send_answer(self, message):
         """
         This method will send a message the answer_queue. Should only be called from inside the Cortex Class.
         :param message:
         :return: None
         """
-        await self.answer_queue.put(message)
         self.file.write(message + "\n")
+        self.file.flush()
+        self.answer_queue.append(message)
 
-    async def get_next_answer(self):
+    def get_next_answer(self):
         """
         This method will read the next answer from the answer_queue.
         :return: None
         """
-        while self.answer_queue.empty():
-            await asyncio.sleep(0.1)
-        return await self.answer_queue.get()
+        return self.answer_queue.pop(0) if self.answer_queue else None
 
 
 async def input_loop(brain):
