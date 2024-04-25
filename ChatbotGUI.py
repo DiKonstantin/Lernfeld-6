@@ -42,7 +42,8 @@ class ChatbotGUI:
         self.brain_instance.send_message(question_text)
         self.questionField.delete(0, END)
         self.textarea.insert(END, f"Me: {question_text} \n")
-
+        if question_text == 'quit':
+            self.master.destroy()
 
     async def output_loop(self):
         while True:
@@ -52,6 +53,7 @@ class ChatbotGUI:
                 self.textarea.insert(END, f"Chatty: {answer}\n")
                 self.textarea.see(END)
 
+
 def run_cortex(cortex):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
@@ -59,12 +61,14 @@ def run_cortex(cortex):
     loop.run_until_complete(cortex.start_session())
     loop.close()
 
-def run_chatbotOutput(chatbot):
+
+def run_chatbot_output(chatbot):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
     loop.run_until_complete(chatbot.output_loop())
     loop.close()
+
 
 def main():
     tracemalloc.start()
@@ -73,7 +77,7 @@ def main():
     chatbot = ChatbotGUI(root, cortex)  # Create Chatbot instance
     thread1 = threading.Thread(target=run_cortex, args=(cortex,))
     thread1.start()
-    thread2 = threading.Thread(target=run_chatbotOutput, args=(chatbot,))
+    thread2 = threading.Thread(target=run_chatbot_output, args=(chatbot,))
     thread2.start()
     print("Vor der ASY")
     chatbot.master.mainloop()
@@ -84,6 +88,5 @@ def main():
     exit()
 
 
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
