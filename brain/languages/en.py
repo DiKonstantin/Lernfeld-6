@@ -1,11 +1,12 @@
 messages = {
+
     "greet": "Welcome, I'm your personal Chatbot!",
     "offer_help": "How can I help?",
     "announce_quit": "Type 'quit' to quit",
     "end_conversation": "Thanks for Using Strg+Alt+DefeatBot",
     "enter_language": "Please enter your languagecode [en, de]:",
     "options": "Choose what matches your Problem: ===============",
-    "leave_message": "Did this help you or do you still have questions? (Y/N)",
+    "leave_message": "Do you have any questions left? (Y/N)",
     "one": "Which data protection policies and procedures have been implemented?",
     "two": "How are the personal data managed and stored?",
     "three": "Who is the data protection officer for my data?",

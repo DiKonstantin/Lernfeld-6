@@ -26,15 +26,129 @@ def startSession():
         inp = input("> ")
         file.write(inp + "\n")
         if inp == "1":
-            print("You chose: " + inp +".")
+            print("You entered: " + inp +".")
             print() #Antwort auf User Input
 
             print(language.get_message("leave_message"))
             leaveInp = input("> ")
-            if leaveInp == "y" or inp == "Y" or leaveInp == "j" or leaveInp == "J":
-              print("Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
             elif leaveInp == "n" or leaveInp == "N":
-                print("Im sorry to hear, maybe we can help you over the Phone you can call us: +49 16672891552")
+                print("Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "2":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "3":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "4":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "5":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "6":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "7":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "8":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            else:
+                conversation_running = False
+        if inp == "9":
+            print("You entered: " + inp + ".")
+            print() # Anntwort auf User Input
+            print(language.get_message("leave_message"))
+            leaveInp = input("> ")
+            if leaveInp == "y" or inp == "Y":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
+            elif leaveInp == "n" or leaveInp == "N":
+                print(
+                    "Im glad it helped you, if you still have any Questions in detail regarding your problem feel free to call one of our Experts")
+            elif leaveInp == "j" or leaveInp == "J":
+                print("Maybe we can help you over the Phone you can call us: +49 16672891552")
             else:
                 conversation_running = False
         if inp == "quit":
