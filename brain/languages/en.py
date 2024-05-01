@@ -5,7 +5,7 @@ messages = {
     "announce_quit": "Type 'quit' to quit",
     "end_conversation": "Thanks for Using Strg+Alt+DefeatBot",
     "enter_language": "Please enter your languagecode [en, de]:",
-    "options": "Choose what matches your Problem: ===============",
+    "options": "=============== Choose what matches your Problem: ===============",
     "leave_message": "Do you have any questions left? (Y/N)",
     "one": "Which data protection policies and procedures have been implemented?",
     "two": "How are the personal data managed and stored?",

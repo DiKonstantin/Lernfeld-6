@@ -11,7 +11,7 @@ def startSession():
     print(filename)
     print(language.get_message("greet"))
     print("If you want to switch languages type --l into the console\n")
-    print("*"*32)
+
     print(language.get_message("options"))
     print("1. " + language.get_message("one")
      + "\n2. " + language.get_message("two")
