@@ -29,5 +29,10 @@ questions = {
     "nine": "Werden Schulungen zum Datenschutz angeboten, und welche wäre diese?"
 }
 answers = {
+    "one": "",
+    "two": "Die personenbezogenen Daten werden in sicheren, "
+           "zugriffsgeschützten Datenbanken oder anderen geeigneten Speichersystemen gespeichert. "
+           "Die Daten werden entsprechend ihres Sensitivitätsgrades und ihrer Vertraulichkeit klassifiziert. "
+           "Es werden nur die Daten gesammelt und gespeichert, die für den jeweiligen Zweck erforderlich sind.",
 
 }

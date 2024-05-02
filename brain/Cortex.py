@@ -45,26 +45,27 @@ class Cortex:
         print("Starting Session")
         conversation_running = True
         self.send_message(language.get_message("greet"))
-        self.send_message(language.get_message("announce_quit"))
+        self.send_message(language.get_message("enter_language"))
 
         while conversation_running:
             await asyncio.sleep(0.1)  # small delay to not have a CPU-overloading loop
             if self.message_queue:
-                next_message = self.message_queue.pop(0)  # get the next message from the stack. This loop will handle each message one by one.
+                next_message = self.message_queue.pop(
+                    0)  # get the next message from the stack. This loop will handle each message one by one.
                 print(next_message)
                 # handle now the "quit" message
                 if next_message == "quit":
                     conversation_running = False
                 elif next_message == "random":
                     self.send_message(language.get_message("end_conversation"))
-
-
-                # now handle all other messages incoming
+                elif next_message in ["de", "en"]:  # Check if the user input is a valid language code
+                    language.load_language(next_message)  # Set the selected language
+                    self.send_message(language.get_message("greet"))  # Send greeting message in the selected language
                 else:
                     ##### REPLACE THE CODE HERE FOR YOUR LOGIC #####
-                    self.send_answer("You entered " + next_message)
+                    self.send_answer(next_message)
 
-        # await self.send_answer(language.get_message("end_conversation"))
+        # await self.send_answer(language.get_message("end_conversatiaon"))
         self.stop_event.set()  # Set the stop event to signal other tasks to stop
 
     def send_message(self, message):

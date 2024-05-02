@@ -28,3 +28,6 @@ questions = {
     8: "Who has access to and insight into my data?",
     9: "Are data protection trainings offered, and what would they entail?"
 }
+answers = {
+
+}

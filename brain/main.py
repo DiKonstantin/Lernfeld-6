@@ -1,6 +1,12 @@
 import time
-
+import shutil
+from colorama import Fore, Style
 from languages import language
+ascii_art = r"""
+╦ ╦┌─┐┬  ┌─┐┌─┐┌┬┐┌─┐   ╦┌┬┐  ┬ ┬┌─┐┬ ┬┬─┐  ┌─┐┌─┐┬─┐┌─┐┌─┐┌┐┌┌─┐┬    ╔═╗┬ ┬┌─┐┌┬┐┌┐ ┌─┐┌┬┐┬
+║║║├┤ │  │  │ ││││├┤    ║│││  └┬┘│ ││ │├┬┘  ├─┘├┤ ├┬┘└─┐│ ││││├─┤│    ║  ├─┤├─┤ │ ├┴┐│ │ │ │
+╚╩╝└─┘┴─┘└─┘└─┘┴ ┴└─┘┘  ╩┴ ┴   ┴ └─┘└─┘┴└─  ┴  └─┘┴└─└─┘└─┘┘└┘┴ ┴┴─┘  ╚═╝┴ ┴┴ ┴ ┴ └─┘└─┘ ┴ o                                                           
+"""
 
 
 def startSession():
@@ -9,9 +15,15 @@ def startSession():
     file = open(filename, "w")
     conversation_running = True
     print(filename)
-    print(language.get_message("greet"))
-    print("If you want to switch languages type --l into the console\n")
-
+    print(Fore.GREEN + ascii_art + Style.RESET_ALL)
+    text = "If you want to switch languages type --l into the console"
+    console_width = shutil.get_terminal_size().columns
+    padding = (console_width - len(text)) // 2
+    centered_text = " " * padding + text
+    print(centered_text)
+    print()
+    print()
+    # print("If you want to switch languages type --l into the console\n")
     print(language.get_message("options"))
     print("1. " + language.get_message("one")
      + "\n2. " + language.get_message("two")
